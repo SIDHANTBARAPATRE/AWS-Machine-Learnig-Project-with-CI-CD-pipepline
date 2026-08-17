@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Exam Performance Predictor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,500;0,600;1,500&family=IBM+Plex+Mono:wght@500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:      #F6F1E4;
+    --paper-line: #E2D8BE;
+    --ink:        #232A25;
+    --pencil:     #8A8072;
+    --pen-red:    #B23A2E;
+    --pen-blue:   #2E4C6E;
+    --card-shadow: 0 30px 60px -25px rgba(35,42,37,0.35);
+  }
+
+  *{ box-sizing:border-box; }
+
+  html,body{
+    margin:0;
+    min-height:100%;
+    background:
+      repeating-linear-gradient(
+        to bottom,
+        transparent 0px, transparent 35px,
+        var(--paper-line) 35px, var(--paper-line) 36px
+      ),
+      var(--paper);
+    font-family:'Inter', sans-serif;
+    color:var(--ink);
+  }
+
+  body{
+    display:flex;
+    justify-content:center;
+    padding:64px 20px 80px;
+  }
+
+  .sheet{
+    position:relative;
+    width:100%;
+    max-width:620px;
+    background:var(--paper);
+    border:1px solid var(--paper-line);
+    box-shadow:var(--card-shadow);
+    padding:56px 48px 48px;
+    transform:rotate(-0.35deg);
+  }
+
+  .sheet::before{
+    content:"";
+    position:absolute;
+    left:-1px; top:60px; bottom:60px;
+    width:1px;
+    border-left:1px dashed var(--paper-line);
+  }
+
+  .punch{
+    position:absolute;
+    left:-6px;
+    width:12px; height:12px;
+    border-radius:50%;
+    background:#fff;
+    box-shadow:inset 0 0 0 1px var(--paper-line), 0 1px 2px rgba(0,0,0,0.15);
+  }
+  .punch.p1{ top:96px; }
+  .punch.p2{ top:50%; margin-top:-6px; }
+  .punch.p3{ bottom:96px; }
+
+  .exam-code{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    letter-spacing:0.08em;
+    color:var(--pencil);
+    text-align:right;
+  }
+
+  .exam-code .no{
+    display:block;
+    font-size:15px;
+    color:var(--ink);
+    font-weight:600;
+    margin-top:4px;
+  }
+
+  .cover-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    margin-bottom:44px;
+  }
+
+  .kicker{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--pen-red);
+    margin:0;
+  }
+
+  .hero h1{
+    font-family:'Lora', serif;
+    font-weight:600;
+    font-size:42px;
+    line-height:1.15;
+    letter-spacing:-0.015em;
+    margin:14px 0 20px;
+  }
+
+  .hero h1 em{
+    font-style:italic;
+    color:var(--pen-red);
+  }
+
+  .hero p{
+    font-size:15px;
+    line-height:1.65;
+    color:var(--pencil);
+    max-width:44ch;
+    margin:0 0 40px;
+  }
+
+  .steps{
+    list-style:none;
+    margin:0 0 44px;
+    padding:0;
+    border-top:1.5px solid var(--ink);
+  }
+
+  .steps li{
+    display:flex;
+    gap:18px;
+    align-items:flex-start;
+    padding:18px 0;
+    border-bottom:1px solid var(--paper-line);
+  }
+
+  .steps .num{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:13px;
+    color:var(--pen-red);
+    flex:none;
+    width:22px;
+    padding-top:2px;
+  }
+
+  .steps .txt strong{
+    display:block;
+    font-size:15px;
+    font-weight:600;
+    margin-bottom:3px;
+  }
+
+  .steps .txt span{
+    font-size:13px;
+    color:var(--pencil);
+    line-height:1.5;
+  }
+
+  .cta-row{
+    display:flex;
+    align-items:center;
+    gap:20px;
+    flex-wrap:wrap;
+  }
+
+  .stamp{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:13px;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--paper);
+    background:var(--pen-red);
+    border:2px solid var(--pen-red);
+    padding:15px 32px;
+    border-radius:999px;
+    cursor:pointer;
+    text-decoration:none;
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    transform:rotate(-2deg);
+    transition:transform .15s ease, background .15s ease, color .15s ease;
+  }
+
+  .stamp:hover{
+    background:transparent;
+    color:var(--pen-red);
+    transform:rotate(0deg) scale(1.02);
+  }
+
+  .stamp:active{ transform:rotate(0deg) scale(0.97); }
+
+  .stamp svg{ width:14px; height:14px; flex:none; }
+
+  .cta-note{
+    font-size:12px;
+    color:var(--pencil);
+    font-style:italic;
+  }
+
+  .footnote{
+    margin-top:48px;
+    font-size:11px;
+    color:var(--pencil);
+    text-align:center;
+    font-style:italic;
+  }
+
+  @media (max-width:600px){
+    .sheet{ padding:44px 26px 40px; transform:none; }
+    .cover-top{ flex-direction:column; gap:16px; }
+    .hero h1{ font-size:32px; }
+    .cta-row{ flex-direction:column; align-items:flex-start; }
+  }
+</style>
+</head>
+<body>
+
+  <main class="sheet">
+    <span class="punch p1"></span>
+    <span class="punch p2"></span>
+    <span class="punch p3"></span>
+
+    <div class="cover-top">
+      <p class="kicker">Cover sheet</p>
+      <div class="exam-code">
+        FORM<span class="no">No. 07</span>
+      </div>
+    </div>
+
+    <div class="hero">
+      <h1>Find out how you'd <em>score</em>&nbsp;&mdash; before you sit the exam.</h1>
+      <p>Answer a few questions about your background and prior test scores, and a trained regression model predicts your math score. Same idea as a practice paper, graded instantly.</p>
+    </div>
+
+    <ol class="steps">
+      <li>
+        <span class="num">01</span>
+        <span class="txt">
+          <strong>Fill in your profile</strong>
+          <span>Gender, lunch type, parental education, and test prep &mdash; the factors the model was trained on.</span>
+        </span>
+      </li>
+      <li>
+        <span class="num">02</span>
+        <span class="txt">
+          <strong>Enter your reading and writing scores</strong>
+          <span>These are the strongest predictors of math performance in the training data.</span>
+        </span>
+      </li>
+      <li>
+        <span class="num">03</span>
+        <span class="txt">
+          <strong>Get graded</strong>
+          <span>Your predicted math score comes back circled in red, the way a marked paper would.</span>
+        </span>
+      </li>
+    </ol>
+
+    <div class="cta-row">
+      <a class="stamp" href="{{ url_for('predict_datapoint') }}">
+        Begin the exam
+        <svg viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <span class="cta-note">Takes about a minute.</span>
+    </div>
+
+  </main>
+
+</body>
+</html>

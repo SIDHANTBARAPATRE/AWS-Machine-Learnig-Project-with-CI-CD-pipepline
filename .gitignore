@@ -7,7 +7,7 @@ __pycache__/
 *.so
 
 # Distribution / packaging
-.Security credentials.txt
+Security credentials.txt
 .artifact
 .Python
 build/

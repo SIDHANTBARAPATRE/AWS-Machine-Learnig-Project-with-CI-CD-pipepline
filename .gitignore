@@ -8,6 +8,7 @@ __pycache__/
 
 # Distribution / packaging
 Security credentials.txt
+sample ec2.pem
 .artifact
 .Python
 build/
